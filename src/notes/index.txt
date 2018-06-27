@@ -1,0 +1,6 @@
+// 动态注册加载一个新的store模块
+store.registerModule('c', {
+  state: {
+    name: '[name]'
+  }
+})
