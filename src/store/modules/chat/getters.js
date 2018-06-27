@@ -1,5 +1,5 @@
 export default {
-    getUser (state, getters, rootState) {
-        return state.user;
-    }
-};
+  getUser (state, getters, rootState) {
+    return state.user
+  }
+}
