@@ -24,7 +24,8 @@
     "url": "https://github.com/zengxingqi/vim/issues"
   },
   "lint-staged": {
-    "src/**/*.(js|vue)": ["lint", "git add"]
+    "src/**/*.vue": ["lint"],
+    "src/**/*.js": ["lint"]
   },
   "dependencies": {
     "axios": "^0.18.0",
