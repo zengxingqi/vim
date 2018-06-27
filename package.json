@@ -24,8 +24,11 @@
     "url": "https://github.com/zengxingqi/vim/issues"
   },
   "lint-staged": {
-    "src/**/*.vue": ["lint"],
-    "src/**/*.js": ["lint"]
+    "src/**/*.{js,jsx,vue}": [
+      "prettier --tab-width 4 --write",
+      "eslint --fix",
+      "git add"
+  ]
   },
   "dependencies": {
     "axios": "^0.18.0",
