@@ -24,16 +24,13 @@
     "url": "https://github.com/zengxingqi/vim/issues"
   },
   "lint-staged": {
+    "*.vue": "eslint",
     "*.js": "eslint",
     "*.scss": "stylelint",
     "*.css": "stylelint",
     "*.json": "jsonlint --quiet",
     "*.md": "markdownlint --config .markdownlint.json"
   },
-  "pre-commit": [
-    "fix",
-    "lint"
-  ],
   "dependencies": {
     "axios": "^0.18.0",
     "koa": "^2.5.1",
