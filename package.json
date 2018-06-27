@@ -23,14 +23,7 @@
   "bugs": {
     "url": "https://github.com/zengxingqi/vim/issues"
   },
-  "lint-staged": {
-    "*.js": "eslint",
-    "*.less": "stylelint",
-    "*.css": "stylelint",
-    "*.json": "jsonlint --quiet",
-    "*.md": "markdownlint --config .markdownlint.json"
-  },
-  "pre-commit": [
+  "lint-staged": [
     "fix",
     "lint"
   ],
