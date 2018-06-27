@@ -23,7 +23,13 @@
   "bugs": {
     "url": "https://github.com/zengxingqi/vim/issues"
   },
-  "lint-staged": {},
+  "lint-staged": {
+    "*.js": "eslint",
+    "*.less": "stylelint",
+    "*.css": "stylelint",
+    "*.json": "jsonlint --quiet",
+    "*.md": "markdownlint --config .markdownlint.json"
+  },
   "dependencies": {
     "axios": "^0.18.0",
     "koa": "^2.5.1",
