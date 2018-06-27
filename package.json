@@ -24,10 +24,10 @@
     "url": "https://github.com/zengxingqi/vim/issues"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,vue}": [
-      "eslint --fix",
+    "src/**/*": [
+      "eslint --fix .",
       "git add"
-  ]
+    ]
   },
   "dependencies": {
     "axios": "^0.18.0",

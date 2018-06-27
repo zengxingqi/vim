@@ -1,3 +1,3 @@
 export default {
-  user: '123'
-}
+    user: '123'
+};

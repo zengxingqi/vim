@@ -1,5 +1,5 @@
 export default {
-  updateUser (state, usr) {
-    state.user = usr
-  }
-}
+    updateUser (state, usr) {
+        state.user = usr;
+    }
+};
