@@ -5,12 +5,14 @@
 </template>
 
 <script>
+import '@/assets/css/reset.css'
+import '@/assets/css/common.css'
 export default {
   name: 'App'
 }
 </script>
 
-<style lang="scss">
+<style>
 html,
 body {
   margin: 0;
@@ -26,15 +28,5 @@ body {
 }
 h1 {
   margin: 0;
-}
-img { content: normal !important; }
-a {
-  color: #555;
-  &:hover {
-    color: #333;
-  }
-  &:active {
-    color: #444;
-  }
 }
 </style>

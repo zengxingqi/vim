@@ -24,8 +24,8 @@
     "url": "https://github.com/zengxingqi/vim/issues"
   },
   "lint-staged": {
-    "src/**/*": [
-      "eslint --fix .",
+    "src/**/*.{js,jsx,vue,json}": [
+      "eslint --fix --ext .js,.vue src",
       "git add ."
     ]
   },

@@ -1,8 +1,9 @@
 <template>
   <div class="home">
     <h1 class="ignore">{{name}}</h1>
-    <p>{{user}}</p>
+    <a href="javascript:void(0)">{{user}}</a>
     <h1 class="ignore">测试</h1>
+    <p>这是一段测试文本</p>
   </div>
 </template>
 
@@ -33,12 +34,27 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
 .hello {
   width: 750px;
 }
 h1.ignore, h2.ignore {
   font-size: 14px;
   font-weight: normal;
+}
+a {
+  color: #555;
+  text-decoration: none;
+  &:hover {
+    color: red;
+  }
+  &:active {
+    color: #444;
+  }
+}
+p {
+  font-size: 18px;
+  width: 300px;
+  margin: 0 auto;
 }
 </style>
