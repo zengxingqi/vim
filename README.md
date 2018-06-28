@@ -12,10 +12,10 @@ yarn
 # 启动dev环境
 npm run dev
 
-# 启动server socket环境
+# 启动server socket服务
 npm run server
 
-# 并行启动dev环境和server socket环境
+# 并行启动dev环境和server socket服务
 npm start
 
 # 打包test代码，测试环境
