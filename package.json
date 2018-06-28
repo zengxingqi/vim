@@ -4,14 +4,14 @@
   "description": "一款基于vue2全家桶+koa2+mongoose+socket等技术栈的webapp即时聊天应用",
   "main": "index.js",
   "scripts": {
+    "start": "npm-run-all --parallel dev server",
+    "test:build": "cross-env NODE_ENV=production SITE=test npm_config_report=true node build/build.js",
+    "prod:build": "cross-env NODE_ENV=production SITE=prod node build/build.js",
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
-    "start": "npm-run-all run dev",
     "lint": "eslint --ext .js,.vue src",
     "fix": "eslint --fix .",
     "precommit": "lint-staged",
-    "server": "node_modules/.bin/nodemon server/app.js",
-    "test:build": "cross-env NODE_ENV=production SITE=test npm_config_report=true node build/build.js",
-    "prod:build": "cross-env NODE_ENV=production SITE=prod node build/build.js"
+    "server": "node_modules/.bin/nodemon server/app.js"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,7 @@
     "url": "https://github.com/zengxingqi/vim/issues"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,vue,json}": [
+    "src/**/*": [
       "eslint --fix --ext .js,.vue src",
       "git add ."
     ]

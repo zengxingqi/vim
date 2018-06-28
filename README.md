@@ -5,17 +5,25 @@
 ## Build Setup
 
 ``` bash
-# install dependencies
+# 安装依赖，推荐 yarn
 npm install
+yarn
 
-# serve with hot reload at localhost:8080
+# 启动dev环境
 npm run dev
 
-# build for production with minification
-npm run build
+# 启动server socket环境
+npm run server
 
-# build for production and view the bundle analyzer report
-npm run build --report
+# 并行启动dev环境和server socket环境
+npm start
+
+# 打包test代码，测试环境
+npm run test:build
+
+# 打包prod代码，线上环境
+npm run prod:build
+
+# 打包test代码和查看分析报告
+npm run test:build
 ```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
