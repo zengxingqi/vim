@@ -2,9 +2,10 @@
   <div class="home">
     <h1 class="ignore">{{name}}</h1>
     <a href="javascript:void(0)">{{user}}</a>
-    <h1 class="ignore">测试</h1>
     <p>这是一段测试文本</p>
     <p>{{content}}</p>
+    <p>hey, {{hey}}</p>
+    <p>question, {{question}}</p>
     <a href="javascript: void(0)" @click="sendMessage">点击发送</a>
   </div>
 </template>
@@ -24,7 +25,9 @@ export default {
       socket: null,
       chat: null,
       news: null,
-      content: ''
+      content: '',
+      hey: '',
+      question: ''
     }
   },
   created () {
@@ -33,7 +36,8 @@ export default {
   methods: {
     sendMessage () {
       console.info('发送', this.chat.id)
-      this.news.emit('chat', '发送给自己')
+      this.chat.emit('chat', '发送消息')
+      // this.news.emit('chat', '发送给自己')
     },
     getIo () {
       // this.socket = ioClient.connect('http://localhost:1234')
@@ -50,19 +54,29 @@ export default {
         let uname = await parseInt(Math.random() * 1000)
         console.log(this.chat.id)
         this.chat.emit('name', {name: uname})
-        this.news = ioClient.connect(`http://localhost:1234/${uname}`, {
-          transports: ['websocket', 'polling']
-        })
-        this.news.on('message', (data) => {
-          console.info(this.chat.id)
-          console.info(data)
-          this.content = data
-        })
+        // this.news = ioClient.connect(`http://localhost:1234/${uname}`, {
+        //   transports: ['websocket', 'polling']
+        // })
+        // this.news.on('broadcast', (data) => {
+        //   console.info(this.chat.id)
+        //   console.info(data)
+        //   this.content = data + '123'
+        // })
       })
-      this.chat.on('message', (data) => {
+
+      this.chat.on('broadcast', (data) => {
         console.info(this.chat.id)
-        console.info(data)
         this.content = data
+      })
+      // 包含回调函数=参数
+      this.chat.on('question', (data, fn) => {
+        console.info(data)
+        fn('123')
+        this.question = data
+      })
+      this.chat.on('hey', (data) => {
+        console.info(this.chat.id)
+        this.hey = data
       })
       // setTimeout(() => {
       //   this.chat.emit('message', {a: 'woot'})
