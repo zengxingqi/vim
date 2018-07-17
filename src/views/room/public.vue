@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <p>这是一段测试文本</p>
     <div v-if="incoming">{{incoming}} 进来了</div>
     <div v-if="privateMessage">私密消息：{{privateMessage.message}}</div>
     <div>
