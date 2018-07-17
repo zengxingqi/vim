@@ -1,3 +1,9 @@
 img {
   content: normal !important;
 }
+.cdsf {
+  display: flex
+}
+.cfdr {
+  flex-direction: row
+}

@@ -49,7 +49,9 @@ export default {
       this.chat = ioClient.connect('http://localhost:1234', {
         transports: ['websocket', 'polling']
       })
-
+      this.news = ioClient.connect(`http://localhost:1234/chat`, {
+        transports: ['websocket', 'polling']
+      })
       this.chat.on('connect', async () => {
         let uname = await parseInt(Math.random() * 1000)
         console.log(this.chat.id)

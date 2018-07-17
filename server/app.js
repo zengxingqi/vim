@@ -9,13 +9,42 @@ server.listen(1234)
 
 io.on('connect', onConnect)
 
+io.of('/chat').on('connection', function (socket) {
+  console.info('chat', socket.id)
+
+  socket.to(socket.id).emit('an event', {
+    some: '123'
+  })
+
+  socket.on('chat', function (data) {
+    console.info()
+  })
+
+  socket.on('disconnect', function (data) {
+    console.info('chat disconnect', data)
+  })
+  socket.on('error', function (error) {
+    console.info('chat', error)
+  })
+})
+
 function onConnect (socket) {
+  console.info('onConnect', socket.id)
   // 发送给当前客户端
   // socket.emit('hello', 'can you hear me?', 1, 2, 'abc')
 
   // 发送给所有客户端，除了发送者
-  socket.broadcast.emit('broadcast', 'hello friends!')
-
+  socket.broadcast.emit('incoming', socket.id)
+  socket.on('chat', function (data, fn) {
+    socket.broadcast.emit('broadcast', data)
+    fn('服务端已收到')
+  })
+  // 私密消息
+  socket.on('sendprivate', function (data, fn) {
+    console.info(data)
+    socket.to(data.toSid).emit('private', data)
+    fn('ok')
+  })
   // 发送给同在 'game' 房间的所有客户端，除了发送者
   // socket.to('game').emit('nice game', "let's play a game")
 
@@ -36,26 +65,29 @@ function onConnect (socket) {
   //   }
   // }
   // 包含回执的消息
-  socket.emit('question', 'do you think so?', function (answer) {
-    console.info(answer)
-  })
+  // socket.emit('question', 'do you think so?', function (answer) {
+  //   console.info(answer)
+  // })
   // 接收消息
-  socket.on('chat', function () {
-    console.info('chat')
-    // 发送给指定 socketid 的客户端（私密消息）
-    io.clients((error, clients) => {
-      if (error) throw error
-      console.log('clients', clients) // => [Anw2LatarvGVVXEIAAAD]
-      let i = 0
-      let len = clients.length
-      for (i; i < len; i++) {
-        console.info(i)
-        if (clients[i] !== socket.id) {
-          socket.to(clients[i]).emit('hey', 'I just met you')
-        }
-      }
-    })
-  })
+  // socket.on('chat', function () {
+  //   console.info('chat')
+  //   // 发送给指定 socketid 的客户端（私密消息）
+  //   io.clients((error, clients) => {
+  //     if (error) throw error
+  //     console.log('clients', clients) // => [Anw2LatarvGVVXEIAAAD]
+  //     let i = 0
+  //     let len = clients.length
+  //     for (i; i < len; i++) {
+  //       console.info(i)
+  //       if (clients[i] !== socket.id) {
+  //         socket.to(clients[i]).emit('hey', 'I just met you')
+  //       }
+  //     }
+  //   })
+  // })
+  // socket.on('disconnect', function (data) {
+  //   console.info('disconnect', data)
+  // })
 }
 
 // app.get('/', function (req, res) {

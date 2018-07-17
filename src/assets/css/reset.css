@@ -106,7 +106,6 @@ sub {
 }
 /* 让链接在 hover 状态下显示下划线 */
 a {
-  color: #fff;
   -webkit-touch-callout:none;
 }
 a:hover {

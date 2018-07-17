@@ -6,9 +6,9 @@ export default [
   {
     path: '/home',
     name: 'home',
-    component: () => import('@/components/HelloWorld'),
+    component: () => import('@/views/room/public'),
     beforeEnter: (to, from, next) => {
-      console.log('=> helloworld route before enter')
+      console.log('=> room public route before enter')
       next()
     }
   }
