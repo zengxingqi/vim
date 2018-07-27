@@ -1,3 +1,4 @@
 export default {
-  name: 'store chat'
+  name: 'store chat',
+  sid: ''
 }

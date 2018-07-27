@@ -1,11 +1,13 @@
 <template>
   <div class="home">
+    {{usid}}
     <div v-if="incoming">{{incoming}} 进来了</div>
     <div v-if="privateMessage">私密消息：{{privateMessage.message}}</div>
     <div>
-      <div v-for="item in content" :key="item.message">
+      <div v-for="item in content" :key="item.time">
+        <div>{{item.time | formatDates}}</div>
         <p>{{item.sid}}说：{{item.message}}</p>
-        <p v-if="item.oneself">{{loadMessage ? '正在发送中' : '已发送成功'}}</p>
+        <p v-if="item.sid === usid">{{loadMessage ? '正在发送中' : '已发送成功'}}</p>
       </div>
     </div>
     <div class="cdsf">
@@ -34,6 +36,7 @@ import {
   mapActions
 } from 'vuex'
 import ioClient from 'socket.io-client'
+import { getTimeText, formatDate } from '@/utils/beforeTime'
 export default {
   name: 'home',
   data () {
@@ -54,15 +57,13 @@ export default {
   },
   methods: {
     sendMessage () {
-      this.content.push({
-        oneself: true,
+      let message = {
         sid: this.chat.id,
-        message: this.message
-      })
-      this.chat.emit('chat', {
-        sid: this.chat.id,
-        message: this.message
-      }, (answer) => {
+        message: this.message,
+        time: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
+      }
+      this.content.push(message)
+      this.chat.emit('chat', message, (answer) => {
         console.info(answer)
         this.loadMessage = false
       })
@@ -73,7 +74,8 @@ export default {
       this.chat.emit('sendprivate', {
         toSid: this.selectSid,
         sid: this.chat.id,
-        message: this.privateInfo
+        message: this.privateInfo,
+        time: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
       }, (answer) => {
         console.info(answer)
       })
@@ -87,6 +89,7 @@ export default {
       // client连接server成功
       this.chat.on('connect', async () => {
         console.log(await this.chat.id)
+        await this.addSid({sid: this.chat.id})
       })
       // 私密消息
       this.chat.on('private', (data) => {
@@ -96,7 +99,7 @@ export default {
       // 接收广播消息
       this.chat.on('broadcast', (data) => {
         this.content.push(data)
-        if (data.sid) {
+        if (data.sid && this.chat.id !== data.sid && this.sidLists.indexOf(data.sid) === -1) {
           this.sidLists.push(data.sid)
         }
       })
@@ -121,14 +124,21 @@ export default {
       })
     },
     ...mapMutations({}),
-    ...mapActions({})
+    ...mapActions({
+      addSid: 'addSid'
+    })
   },
   computed: {
     ...mapState({
-      name: state => state.name,
+      usid: state => state.sid,
       user: state => state.chat.user
     }),
     ...mapGetters({})
+  },
+  filters: {
+    formatDates (time) {
+      return getTimeText(time)
+    }
   }
 }
 </script>
