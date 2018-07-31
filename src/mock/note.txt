@@ -75,12 +75,57 @@ c：客户端 === s：服务端
   sid: '123'    // 当前唯一标识，由s下发c绑定，校验是否一致；如果c刷新断开，s重新下发c绑定
 }
 
+// 连接mongodb错误
+name: 'MongoNetworkError',
+message: 'failed to connect to server [localhost:27017] on first connect [MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017]',
+errorLabels: [ 'TransientTransactionError' ]
 
+// 更新doc
+Tank.update({ _id: id }, { $set: { size: 'large' }}, callback);
+Tank.findById(id, function (err, tank) {
+  if (err) return handleError(err);
+  tank.set({ size: 'large' });
+  tank.save(function (err, updatedTank) {
+    if (err) return handleError(err);
+    res.send(updatedTank);
+  });
+});
 
+// 查询doc
+Tank.find({ size: 'small' }).where('createdDate').gt(oneYearAgo).exec(callback);
+Person.
+  find({ occupation: /host/ }).
+  where('name.last').equals('Ghost').
+  where('age').gt(17).lt(66).
+  where('likes').in(['vaporizing', 'talking']).
+  limit(10).
+  sort('-occupation').
+  select('name occupation').
+  exec(callback);
+// 查询每个 last name 是 'Ghost' 的 person， select `name` 和 `occupation` 字段
+Person.findOne({ 'name.last': 'Ghost' }, 'name occupation', function (err, person) {
+  if (err) return handleError(err);
+  // Prints "Space Ghost is a talk show host".
+  console.log('%s %s is a %s.', person.name.first, person.name.last,
+    person.occupation);
+});
 
+// 创建保存doc
+small.save(function (err) {
+  if (err) return handleError(err);
+  // saved!
+})
+// or
+Tank.create({ size: 'small' }, function (err, small) {
+  if (err) return handleError(err);
+  // saved!
+})
 
-
-
+// 移除doc
+Tank.remove({ size: 'large' }, function (err) {
+  if (err) return handleError(err);
+  // removed!
+});
 
 
 
