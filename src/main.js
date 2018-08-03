@@ -6,6 +6,7 @@ import vueRouter from 'vue-router'
 import Vuex from 'vuex'
 import creatRouter from './router'
 import creatStore from './store'
+import createPermission from './permission'
 const isDebug = process.env.NODE_ENV !== 'production'
 Vue.config.debug = isDebug
 Vue.config.devtools = isDebug
@@ -14,6 +15,7 @@ Vue.use(vueRouter)
 Vue.use(Vuex)
 const router = creatRouter()
 const store = creatStore()
+createPermission(router, store)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

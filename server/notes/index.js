@@ -1,4 +1,34 @@
 
+// io.on('connect', onConnect)
+
+// function onConnect (socket) {
+//   let usrinfo = {
+//     uname: Math.random().toString(36).substr(4),
+//     login: socket.id
+//   }
+//   let felyne = new UserSchema(usrinfo)
+//   felyne.save(function (err, doc) {
+//     if (err) return console.error('felyne', err)
+//     console.log(doc)
+//   })
+//   // console.info('onConnect', socket.id)
+//   // 发送给当前客户端
+//   socket.emit('userinfo', usrinfo)
+
+//   // 发送给所有客户端，除了发送者
+//   socket.broadcast.emit('incoming', usrinfo)
+//   socket.on('chat', function (data, fn) {
+//     socket.broadcast.emit('broadcast', data)
+//     fn('服务端已收到')
+//   })
+//   // 私密消息
+//   socket.on('sendprivate', function (data, fn) {
+//     console.info(data)
+//     socket.to(data.toSid).emit('private', data)
+//     fn('ok')
+//   })
+// }
+
 // 发送给同在 'game' 房间的所有客户端，除了发送者
 // socket.to('game').emit('nice game', "let's play a game")
 

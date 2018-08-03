@@ -7,5 +7,19 @@ export default {
     commit('addSid', {
       sid
     })
+  },
+  addUsr ({
+    state,
+    commit,
+    rootState
+  }, usr) {
+    commit('addUsr', usr)
+  },
+  removeUsr ({
+    state,
+    commit,
+    rootState
+  }) {
+    commit('removeUsr')
   }
 }

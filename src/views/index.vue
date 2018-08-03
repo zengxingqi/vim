@@ -37,6 +37,7 @@ import {
 } from 'vuex'
 import ioClient from 'socket.io-client'
 import { getTimeText, formatDate } from '@/utils/beforeTime'
+import {setLs, clearLs} from '@/localstore'
 export default {
   name: 'home',
   data () {
@@ -59,6 +60,7 @@ export default {
     sendMessage () {
       let message = {
         sid: this.chat.id,
+        uname: this.user.uname,
         message: this.message,
         time: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
       }
@@ -74,6 +76,7 @@ export default {
       this.chat.emit('sendprivate', {
         toSid: this.selectSid,
         sid: this.chat.id,
+        uname: this.user.uname,
         message: this.privateInfo,
         time: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
       }, (answer) => {
@@ -89,12 +92,28 @@ export default {
       // client连接server成功
       this.chat.on('connect', async () => {
         console.log(this.chat.id)
-        this.addSid({sid: this.chat.id})
+        let str = this.chat.id
+        str = str.match(/\/chatroom#(\S*)/)[1]
+        this.addSid({sid: str})
       })
-      // 个人信息
-      this.chat.on('userinfo', async (data) => {
-        console.log(data)
-        this.addUsr(data)
+      // 更新tid，验证token一类的事情
+      // if (this.usid !== this.user['tid']) {
+      console.log('更新tid，验证token一类的事情')
+      this.chat.emit('update', {id: this.user._id, tid: this.user['tid']}, (answer) => {
+        console.log(answer)
+        if (answer.status === 200) {
+          setLs('usr', answer.result)
+          this.addUsr(answer.result)
+        } else {}
+      })
+      // }
+      // 账号在另一处登录提示
+      this.chat.on('entry', async (message) => {
+        console.log(message)
+        this.chat.close()
+        this.removeUsr()
+        clearLs()
+        this.$router.push({ path: '/login' })
       })
       // 私密消息
       this.chat.on('private', async (data) => {
@@ -128,7 +147,7 @@ export default {
         console.info('chat connect_error', error)
       })
     },
-    ...mapMutations({}),
+    ...mapMutations({removeUsr: 'removeUsr'}),
     ...mapActions({
       addSid: 'addSid',
       addUsr: 'addUsr'
@@ -137,7 +156,7 @@ export default {
   computed: {
     ...mapState({
       usid: state => state.sid,
-      user: state => state.chat.user
+      user: state => state.usr
     }),
     ...mapGetters({})
   },
@@ -145,6 +164,10 @@ export default {
     formatDates (time) {
       return getTimeText(time)
     }
+  },
+  destroyed () {
+    console.log('销毁')
+    this.chat.close()
   }
 }
 </script>

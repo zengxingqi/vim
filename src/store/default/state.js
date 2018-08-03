@@ -1,4 +1,4 @@
 export default {
-  name: 'store chat',
+  usr: '',
   sid: ''
 }

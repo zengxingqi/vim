@@ -118,6 +118,9 @@ export default {
       user: state => state.chat.user
     }),
     ...mapGetters({})
+  },
+  destroyed () {
+    console.log('销毁')
   }
 }
 </script>

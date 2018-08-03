@@ -44,7 +44,7 @@ table {
 }
 /* 去除默认边框 */
 fieldset, img {
-  -webkit-touch-callout:none;
+  -webkit-touch-callout: none;
   border: 0;
 }
 /* 块/段落引用 */

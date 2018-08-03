@@ -130,3 +130,14 @@ Tank.remove({ size: 'large' }, function (err) {
 
 
 
+
+
+
+// E11000 duplicate key error collection: vim.userschemas index: contact_1 dup key
+// 参考 https://stackoverflow.com/questions/24430220/e11000-duplicate-key-error-index-in-mongodb-mongoose
+在命令行中敲入执行
+➜ mongo
+> use dbName;
+> db.dropDatabase();
+> exit
+
