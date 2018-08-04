@@ -15,7 +15,7 @@
       <input type="button" value="注册" @click="Register">
     </div>
     <div>
-      <router-link :to="{path:'/login'}">已有账户？去登录</router-link>
+      <router-link :to="{path:'/login'}">已有账号？去登录</router-link>
     </div>
   </div>
 </template>

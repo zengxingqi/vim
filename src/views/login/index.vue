@@ -12,7 +12,7 @@
       <input type="button" value="登陆" @click="Login">
     </div>
     <div>
-      <router-link :to="{path:'/register'}">还没有账户？去注册</router-link>
+      <router-link :to="{path:'/register'}">还没账号？去注册</router-link>
     </div>
   </div>
 </template>

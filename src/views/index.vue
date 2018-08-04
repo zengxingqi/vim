@@ -6,7 +6,7 @@
     <div>
       <div v-for="item in content" :key="item.time">
         <div>{{item.time | formatDates}}</div>
-        <p>{{item.sid}}说：{{item.message}}</p>
+        <p>{{item.uname}}说：{{item.message}}</p>
         <p v-if="item.sid === usid">{{loadMessage ? '正在发送中' : '已发送成功'}}</p>
       </div>
     </div>
@@ -59,7 +59,7 @@ export default {
   methods: {
     sendMessage () {
       let message = {
-        sid: this.chat.id,
+        sid: this.usid,
         uname: this.user.uname,
         message: this.message,
         time: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
@@ -74,8 +74,8 @@ export default {
     // 发送私密信息
     privateSend () {
       this.chat.emit('sendprivate', {
-        toSid: this.selectSid,
-        sid: this.chat.id,
+        toSid: '/chatroom#' + this.selectSid,
+        sid: this.usid,
         uname: this.user.uname,
         message: this.privateInfo,
         time: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
@@ -92,21 +92,18 @@ export default {
       // client连接server成功
       this.chat.on('connect', async () => {
         console.log(this.chat.id)
-        let str = this.chat.id
-        str = str.match(/\/chatroom#(\S*)/)[1]
+        let str = (this.chat.id).match(/\/chatroom#(\S*)/)[1]
         this.addSid({sid: str})
+        // 更新tid，验证token一类的事情
+        console.log('更新tid，验证token一类的事情')
+        this.chat.emit('update', {id: this.user._id, tid: this.user['tid']}, (answer) => {
+          console.log(answer)
+          if (answer.status === 200) {
+            setLs('usr', answer.result)
+            this.addUsr(answer.result)
+          } else {}
+        })
       })
-      // 更新tid，验证token一类的事情
-      // if (this.usid !== this.user['tid']) {
-      console.log('更新tid，验证token一类的事情')
-      this.chat.emit('update', {id: this.user._id, tid: this.user['tid']}, (answer) => {
-        console.log(answer)
-        if (answer.status === 200) {
-          setLs('usr', answer.result)
-          this.addUsr(answer.result)
-        } else {}
-      })
-      // }
       // 账号在另一处登录提示
       this.chat.on('entry', async (message) => {
         console.log(message)
@@ -123,7 +120,7 @@ export default {
       // 接收广播消息
       this.chat.on('broadcast', async (data) => {
         this.content.push(data)
-        if (data.sid && this.chat.id !== data.sid && this.sidLists.indexOf(data.sid) === -1) {
+        if (data.sid && this.usid !== data.sid && this.sidLists.indexOf(data.sid) === -1) {
           this.sidLists.push(data.sid)
         }
       })
