@@ -1,6 +1,6 @@
 # vim
 
-> 一款基于vue2全家桶+koa2+mongoose+socket等技术栈的webapp即时聊天应用
+> 一款基于vue2全家桶+koa2+mongoose+socket等技术栈的webapp即时聊天应用(已废弃，后续会重开新项目，基于最新版本的vue全家桶)
 
 ## Build Setup
 
